@@ -5,8 +5,12 @@ def pow(a, b):
     elif b == 1:
         return a
 
-    # Handle the case when the base is negative and the exponent is positive
-    if a < 0 and b > 0:
+    # Handle the case when the base is negative and the exponent is even
+    if a < 0 and b > 0 and b % 2 == 0:
+        return pow(-a, b)
+
+    # Handle the case when the base is negative and the exponent is odd
+    if a < 0 and b > 0 and b % 2 == 1:
         return -pow(-a, b)
 
     # Handle the case when the base is positive and the exponent is negative
@@ -19,3 +23,4 @@ def pow(a, b):
         result *= a
 
     return result
+
