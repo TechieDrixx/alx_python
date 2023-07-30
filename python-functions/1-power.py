@@ -1,14 +1,21 @@
 def pow(a, b):
-    # Initialize the result to 1 since anything raised to the power of 0 is 1
-    result = 1
-    
-    # Handle the case when the exponent is negative
-    if b < 0:
-        a = 1 / a
-        b = -b
+    # Check for special cases when the exponent is 0 or 1
+    if b == 0:
+        return 1
+    elif b == 1:
+        return a
 
-    # Multiply a to the result 'b' times
+    # Handle the case when the base is negative and the exponent is positive
+    if a < 0 and b > 0:
+        return -pow(-a, b)
+
+    # Handle the case when the base is positive and the exponent is negative
+    if a > 0 and b < 0:
+        return 1 / pow(a, -b)
+
+    # Calculate a to the power of b using a loop
+    result = 1
     for _ in range(b):
         result *= a
-        
+
     return result
