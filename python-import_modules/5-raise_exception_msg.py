@@ -1,9 +1,7 @@
-def divide_numbers(a, b):
-    if b == 0:
-        raise_exception_msg("Cannot divide by zero!")
-    return a / b
+def raise_exception_msg(message=""):
+    raise NameError(message)
 
 try:
-    result = divide_numbers(10, 0)
-except NameError as e:
-    print("Error:", e)
+    raise_exception_msg("C is fun")
+except NameError as ne:
+    print(ne)
