@@ -1,8 +1,16 @@
-class Square:
-    def __init__(self, size):
-        self.__size = size
+#!/usr/bin/python3
+"""Square class definition"""
 
-# Example usage
-my_square = Square(3)
-print(type(my_square))
-print(my_square.__dict__)
+
+class Square:
+    """Represents a square
+    Attributes:
+        __size (int): size of a side of the square
+    """
+    def __init__(self, size):
+        """Initializes a square
+        Args:
+            size (int): size of a side of the square
+        Returns: None
+        """
+        self.__size = size
