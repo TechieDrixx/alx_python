@@ -1,40 +1,24 @@
-File Edit Options Buffers Tools Python Help                                                                                                                  
-#!/usr/bin/python3                                                                                                                                           
-"""                                                                                                                                                          
-This is a Python script that takes in a URL and an email address,                                                                                            
-sends a POST request to the passed URL with the email as a parameter,                                                                                        
-and finally displays the body of the response.                                                                                                               
-"""
+#!/usr/bin/python3
 import requests
 import sys
 
-def send_post_request(url, email):
-    """                                                                                                                                                      
-    Sends a POST request to the provided URL with the email as a parameter and displays the response body.                                                   
-                                                                                                                                                             
-    Args:                                                                                                                                                    
-        url (str): The URL to send the POST request to.                                                                                                      
-        email (str): The email address to include as a parameter in the request.                                                                             
-                                                                                                                                                             
-    Raises:                                                                                                                                                  
-        requests.exceptions.RequestException: If an error occurs during the HTTP request.                                                                    
-    """
-    payload = {"email": email}
+def get_request_id(url):
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an exception if the response status is not OK (200)
+        request_id = response.headers.get('X-Request-Id')
+        if request_id:
+            return request_id
+        else:
+            return "X-Request-Id not found in the response header"
+    except requests.exceptions.RequestException as e:
+        return f"An error occurred: {e}"
 
-    response = requests.post(url, data=payload)
+if _name_ == "_main_":
+    if len(sys.argv) != 2:
+        print("Usage: ./get_request_id.py <url>")
+        sys.exit(1)
 
-    response.raise_for_status()
-
-    print("Response body:")
-    print(response.text)
-
-if __name__ == '__main__':
-    if len(sys.argv) < 3:
-        print("Please provide a URL and an email address as command-line arguments.")
-    else:
-        url = sys.argv[1]
-        email = sys.argv[2]
-        try:
-            send_post_request(url, email)
-        except requests.exceptions.RequestException as e:
-            print("Error:", str(e))
+    url = sys.argv[1]
+    request_id = get_request_id(url)
+    print("X-Request-Id:", request_id)
