@@ -1,24 +1,18 @@
 #!/usr/bin/python3
-import requests
+"""Sends a POST request to a given URL with a given email.
+Usage: ./2-post_email.py <URL> <email>
+  - Displays the body of the response.
+"""
 import sys
+import urllib.parse
+import urllib.request
 
-def get_request_id(url):
-    try:
-        response = requests.get(url)
-        response.raise_for_status()  # Raise an exception if the response status is not OK (200)
-        request_id = response.headers.get('X-Request-Id')
-        if request_id:
-            return request_id
-        else:
-            return "X-Request-Id not found in the response header"
-    except requests.exceptions.RequestException as e:
-        return f"An error occurred: {e}"
 
-if _name_ == "_main_":
-    if len(sys.argv) != 2:
-        print("Usage: ./get_request_id.py <url>")
-        sys.exit(1)
-
+if __name__ == "__main__":
     url = sys.argv[1]
-    request_id = get_request_id(url)
-    print("X-Request-Id:", request_id)
+    value = {"email": sys.argv[2]}
+    data = urllib.parse.urlencode(value).encode("ascii")
+
+    request = urllib.request.Request(url, data)
+    with urllib.request.urlopen(request) as response:
+        print(response.read().decode("utf-8"))
