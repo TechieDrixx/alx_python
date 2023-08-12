@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 import requests
 import sys
 
@@ -21,3 +20,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+#!/usr/bin/python3
