@@ -2,23 +2,22 @@
 import requests
 import sys
 
-def get_request_id(url):
-    try:
-        response = requests.get(url)
-        response.raise_for_status()  # Raise an exception if the response status is not OK (200)
-        request_id = response.headers.get('X-Request-Id')
-        if request_id:
-            return request_id
-        else:
-            return "X-Request-Id not found in the response header"
-    except requests.exceptions.RequestException as e:
-        return f"An error occurred: {e}"
-
-if _name_ == "_main_":
-    if len(sys.argv) != 2:
-        print("Usage: ./get_request_id.py <url>")
-        sys.exit(1)
+def main():
+    if len(sys.argv) != 3:
+        print("Usage: python script.py <URL> <email>")
+        return
 
     url = sys.argv[1]
-    request_id = get_request_id(url)
-    print("X-Request-Id:", request_id)
+    email = sys.argv[2]
+
+    payload = {'email': email}
+
+    try:
+        response = requests.post(url, data=payload)
+        print("Response Body:")
+        print(response.text)
+    except requests.RequestException as e:
+        print("Error:", e)
+
+if __name__ == "__main__":
+    main()
